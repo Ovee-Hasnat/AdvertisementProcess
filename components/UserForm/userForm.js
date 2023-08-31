@@ -3,24 +3,20 @@
 import React, { useState } from "react";
 
 const UserForm = ({ post, setpost }) => {
-  // function encodeImageFileAsURL(filesSelected) {
-  //   // var filesSelected = document.getElementById("inputFileToLoad").files;
-  //   if (filesSelected.length > 0) {
-  //     var fileToLoad = filesSelected[0];
+  function encodeImageFileAsURL(filesSelected) {
+    if (filesSelected.length > 0) {
+      var fileToLoad = filesSelected[0];
 
-  //     var fileReader = new FileReader();
+      var fileReader = new FileReader();
 
-  //     fileReader.onload = function (fileLoadedEvent) {
-  //       var srcData = fileLoadedEvent.target.result; // <--- data: base64
-  //       return srcData;
-  //     };
-  //     console.log(42, fileReader.readAsDataURL(fileToLoad));
-  //   }
-  // }
+      fileReader.onload = async function (fileLoadedEvent) {
+        var srcData = fileLoadedEvent.target.result; // <--- data: base64
+        setpost({ ...post, coverImage: srcData });
+      };
 
-  // encodeImageFileAsURL(post.coverImage);
-
-  //console.log(post);
+      fileReader.readAsDataURL(fileToLoad);
+    }
+  }
 
   return (
     <div>
@@ -89,7 +85,7 @@ const UserForm = ({ post, setpost }) => {
             className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg p-2 w-3/4"
             required
             onChange={(e) => {
-              setpost({ ...post, coverImage: e.target.files });
+              encodeImageFileAsURL(e.target.files);
             }}
           />
         </div>
@@ -156,9 +152,7 @@ const UserForm = ({ post, setpost }) => {
           </button>
           <span
             className="py-1 px-3 underline text-gray-700 mx-4 hover:cursor-pointer"
-            onClick={(e) => {
-              localStorage.setItem("postObj", post);
-            }}
+            onClick={(e) => {}}
           >
             ↻ Preview
           </span>

@@ -13,7 +13,7 @@ export default function Home() {
     subTitle: "",
     mainBody: "",
     date: new Date().toLocaleString(),
-    coverImage: {},
+    coverImage: "",
     extraImage: [],
     quote: "",
     extraLink: "",
