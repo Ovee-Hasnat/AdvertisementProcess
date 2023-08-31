@@ -2,20 +2,25 @@
 
 import React, { useState } from "react";
 
-const UserForm = () => {
-  const [post, setpost] = useState({
-    postObj: {
-      mainDiv: { height: 1, width: 1 },
-      mainTitle: "",
-      subTitle: "",
-      mainBody: "",
-      Date: new Date().toLocaleString(),
-      coverImage: [],
-      extraImage: [],
-      quote: "",
-      ExtraLink: "",
-    },
-  });
+const UserForm = ({ post, setpost }) => {
+  // function encodeImageFileAsURL(filesSelected) {
+  //   // var filesSelected = document.getElementById("inputFileToLoad").files;
+  //   if (filesSelected.length > 0) {
+  //     var fileToLoad = filesSelected[0];
+
+  //     var fileReader = new FileReader();
+
+  //     fileReader.onload = function (fileLoadedEvent) {
+  //       var srcData = fileLoadedEvent.target.result; // <--- data: base64
+  //       return srcData;
+  //     };
+  //     console.log(42, fileReader.readAsDataURL(fileToLoad));
+  //   }
+  // }
+
+  // encodeImageFileAsURL(post.coverImage);
+
+  //console.log(post);
 
   return (
     <div>
@@ -27,6 +32,12 @@ const UserForm = () => {
             className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg p-2 w-24"
             placeholder="Height"
             required
+            onChange={(e) => {
+              setpost({
+                ...post,
+                mainDiv: { ...post.mainDiv, height: e.target.value },
+              });
+            }}
           />
           <span className="mx-2 font-bold">X</span>
           <input
@@ -34,6 +45,12 @@ const UserForm = () => {
             className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg p-2 w-24"
             placeholder="Width"
             required
+            onChange={(e) => {
+              setpost({
+                ...post,
+                mainDiv: { ...post.mainDiv, width: e.target.value },
+              });
+            }}
           />
           <span className="mx-2 font-medium">Inches</span>
         </div>
@@ -45,6 +62,9 @@ const UserForm = () => {
             className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg p-2 w-full"
             placeholder="Title"
             required
+            onChange={(e) => {
+              setpost({ ...post, mainTitle: e.target.value });
+            }}
           />
         </div>
 
@@ -56,6 +76,9 @@ const UserForm = () => {
             type="text"
             className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg p-2 w-full"
             placeholder="Sub-title (if any)"
+            onChange={(e) => {
+              setpost({ ...post, subTitle: e.target.value });
+            }}
           />
         </div>
 
@@ -65,6 +88,9 @@ const UserForm = () => {
             type="file"
             className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg p-2 w-3/4"
             required
+            onChange={(e) => {
+              setpost({ ...post, coverImage: e.target.files });
+            }}
           />
         </div>
 
@@ -76,6 +102,9 @@ const UserForm = () => {
             placeholder="Enter your description here ..."
             required
             rows={6}
+            onChange={(e) => {
+              setpost({ ...post, mainBody: e.target.value });
+            }}
           />
         </div>
 
@@ -87,11 +116,17 @@ const UserForm = () => {
             type="text"
             className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg p-2 w-full mb-2"
             placeholder="Enter a quote"
+            onChange={(e) => {
+              setpost({ ...post, quote: e.target.value });
+            }}
           />
           <input
             type="text"
             className="bg-blue-50 border border-gray-300 text-gray-900 rounded-lg p-2 w-full focus:outline-blue-400"
             placeholder="Add any link"
+            onChange={(e) => {
+              setpost({ ...post, extraLink: e.target.value });
+            }}
           />
         </div>
 
@@ -103,15 +138,29 @@ const UserForm = () => {
             type="file"
             className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg p-2 w-full"
             multiple
+            onChange={(e) => {
+              setpost({ ...post, extraImage: [e.target.files] });
+            }}
           />
         </div>
 
         <div>
-          <button className="my-6 py-3 w-52 border text-lg bg-neutral-900 text-neutral-200 rounded-full font-semibold">
+          <button
+            className="my-6 py-3 w-52 border text-lg bg-neutral-900 text-neutral-200 rounded-full font-semibold"
+            onClick={(e) => {
+              e.preventDefault();
+              console.log(post);
+            }}
+          >
             Generate
           </button>
-          <span className="py-1 px-3 underline text-gray-700 mx-4 hover:cursor-pointer">
-            Preview
+          <span
+            className="py-1 px-3 underline text-gray-700 mx-4 hover:cursor-pointer"
+            onClick={(e) => {
+              localStorage.setItem("postObj", post);
+            }}
+          >
+            ↻ Preview
           </span>
         </div>
       </form>
