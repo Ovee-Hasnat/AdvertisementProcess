@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 
-const UserForm = ({ post, setpost }) => {
+const UserForm = ({ post, setpost, setLocal }) => {
   function encodeImageFileAsURL(filesSelected) {
     if (filesSelected.length > 0) {
       var fileToLoad = filesSelected[0];
@@ -17,6 +17,28 @@ const UserForm = ({ post, setpost }) => {
       fileReader.readAsDataURL(fileToLoad);
     }
   }
+
+  const extraImgBase = (e) => {
+    let images = Object.values(e.target.files);
+    console.log(images);
+    let imgBase = [];
+
+    images.map((image) => {
+      var fileToLoad = image;
+
+      var fileReader = new FileReader();
+
+      fileReader.onload = async function (fileLoadedEvent) {
+        var srcData = fileLoadedEvent.target.result; // <--- data: base64
+        imgBase.push(srcData);
+      };
+
+      fileReader.readAsDataURL(fileToLoad);
+    });
+
+    setpost({ ...post, extraImage: imgBase });
+    console.log(images.length, imgBase);
+  };
 
   return (
     <div>
@@ -106,7 +128,7 @@ const UserForm = ({ post, setpost }) => {
 
         <div>
           <label className="block mb-2 text-gray-900">
-            Add Quotes & Links (Optional)
+            Add Quotes (Optional)
           </label>
           <input
             type="text"
@@ -114,14 +136,6 @@ const UserForm = ({ post, setpost }) => {
             placeholder="Enter a quote"
             onChange={(e) => {
               setpost({ ...post, quote: e.target.value });
-            }}
-          />
-          <input
-            type="text"
-            className="bg-blue-50 border border-gray-300 text-gray-900 rounded-lg p-2 w-full focus:outline-blue-400"
-            placeholder="Add any link"
-            onChange={(e) => {
-              setpost({ ...post, extraLink: e.target.value });
             }}
           />
         </div>
@@ -135,27 +149,49 @@ const UserForm = ({ post, setpost }) => {
             className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg p-2 w-full"
             multiple
             onChange={(e) => {
-              setpost({ ...post, extraImage: [e.target.files] });
+              extraImgBase(e);
+            }}
+          />
+        </div>
+
+        <div>
+          <label className="block mb-2 text-gray-900">
+            Add a call to action button (Optional)
+          </label>
+          <input
+            type="text"
+            className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg p-2 w-full mb-2"
+            placeholder="Enter button text"
+            onChange={(e) => {
+              setpost({ ...post, buttonText: e.target.value });
+            }}
+          />
+          <input
+            type="text"
+            className="bg-blue-50 border border-gray-300 text-gray-900 rounded-lg p-2 w-full focus:outline-blue-400"
+            placeholder="Add any link"
+            onChange={(e) => {
+              setpost({ ...post, extraLink: e.target.value });
             }}
           />
         </div>
 
         <div>
           <button
-            className="my-6 py-3 w-52 border text-lg bg-neutral-900 text-neutral-200 rounded-full font-semibold"
+            className="block my-6 py-3 w-52 border text-lg bg-neutral-900 text-neutral-200 rounded-full font-semibold mx-auto"
             onClick={(e) => {
               e.preventDefault();
-              console.log(post);
+              setLocal();
             }}
           >
             Generate
           </button>
-          <span
+          {/* <span
             className="py-1 px-3 underline text-gray-700 mx-4 hover:cursor-pointer"
             onClick={(e) => {}}
           >
             ↻ Preview
-          </span>
+          </span> */}
         </div>
       </form>
     </div>
