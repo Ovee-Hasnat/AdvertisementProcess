@@ -52,6 +52,9 @@ const PreviewPage = () => {
       >
         Print
       </button>
+      <Link href={"/"} className="underline w-fit block mx-auto my-6">
+        Back
+      </Link>
       {!Loader ? (
         <div id="divCon">
           <div
