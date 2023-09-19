@@ -1,3 +1,5 @@
+"use client";
+
 import KanbanBoard from "@/components/Task management/TaskBoard";
 import React from "react";
 

@@ -111,7 +111,7 @@ function ColumnContainer({
         rounded-full
         "
           >
-            0
+            {tasks.length}
           </div>
           {!editMode && column.title}
           {editMode && (

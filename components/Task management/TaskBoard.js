@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import ColumnContainer from "./ColumnContainer";
 import {
   DndContext,
@@ -111,6 +111,8 @@ function KanbanBoard() {
 
   const [activeTask, setActiveTask] = useState(null);
 
+  const [doc, setDoc] = useState(null);
+
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
@@ -124,7 +126,7 @@ function KanbanBoard() {
       className="
         m-auto
         flex
-        min-h-screen
+        min-h-[calc(100vh-36px)]
         w-full
         items-center
         overflow-x-auto
@@ -172,6 +174,7 @@ function KanbanBoard() {
       ring-rose-500
       hover:ring-2
       flex
+      items-center
       gap-2
       "
           >
@@ -179,7 +182,6 @@ function KanbanBoard() {
             Add Column
           </button>
         </div>
-
         {createPortal(
           <DragOverlay>
             {activeColumn && (
@@ -194,7 +196,7 @@ function KanbanBoard() {
                   (task) => task.columnId === activeColumn.id
                 )}
               />
-            )}
+            )}  
             {activeTask && (
               <TaskCard
                 task={activeTask}
@@ -203,7 +205,7 @@ function KanbanBoard() {
               />
             )}
           </DragOverlay>,
-          window.document.body
+          document.body
         )}
       </DndContext>
     </div>
