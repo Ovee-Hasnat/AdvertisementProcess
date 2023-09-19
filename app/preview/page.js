@@ -4,6 +4,8 @@ import html2canvas from "html2canvas";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import * as htmlToImage from "html-to-image";
+import download from "downloadjs";
 
 const PreviewPage = () => {
   const [post, setPost] = useState({});
@@ -44,17 +46,97 @@ const PreviewPage = () => {
     });
   }
 
+  const getJPG = () => {
+    htmlToImage
+      .toJpeg(document.getElementById("divCon"), { quality: 0.99 })
+      .then(function (dataUrl) {
+        var link = document.createElement("a");
+        link.download = "my-image-name.jpeg";
+        link.href = dataUrl;
+        link.click();
+      });
+  };
+
+  const getPNG = () => {
+    htmlToImage
+      .toPng(document.getElementById("divCon"))
+      .then(function (dataUrl) {
+        download(dataUrl, "my-node.png");
+      });
+  };
+
   return (
     <div className={"p-4 bg-neutral-200"}>
-      <button
+      {/* <button
         className="py-1 px-6 bg-black text-white font-medium block mx-auto my-6"
         onClick={printDivContent}
       >
         Print
+      </button> */}
+
+      <button
+        id="dropdownDefaultButton"
+        data-dropdown-toggle="dropdown"
+        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
+        type="button"
+      >
+        Download{" "}
+        <svg
+          className="w-2.5 h-2.5 ml-2.5"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 10 6"
+        >
+          <path
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="m1 1 4 4 4-4"
+          />
+        </svg>
       </button>
-      <Link href={"/"} className="underline w-fit block mx-auto my-6">
+
+      <div
+        id="dropdown"
+        className="z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-32 dark:bg-gray-700"
+      >
+        <ul
+          className="py-2 text-sm text-gray-700 dark:text-gray-200"
+          aria-labelledby="dropdownDefaultButton"
+        >
+          <li>
+            <p
+              className="block px-4 py-2 hover:bg-gray-100 cursor-pointer"
+              onClick={printDivContent}
+            >
+              as PDF
+            </p>
+          </li>
+          <li>
+            <p
+              className="block px-4 py-2 hover:bg-gray-100 cursor-pointer"
+              onClick={getPNG}
+            >
+              as PNG
+            </p>
+          </li>
+          <li>
+            <p
+              className="block px-4 py-2 hover:bg-gray-100 cursor-pointer"
+              onClick={getJPG}
+            >
+              as JPG
+            </p>
+          </li>
+        </ul>
+      </div>
+
+      <Link href={"/"} className="underline w-fit block my-6">
         Back
       </Link>
+
       {!Loader ? (
         <div id="divCon">
           <div
@@ -98,7 +180,7 @@ const PreviewPage = () => {
                     src={img}
                     width={200}
                     height={200}
-                    className="m-2 rounded-lg"
+                    className="m-2"
                     alt="extra"
                     key={i}
                   />

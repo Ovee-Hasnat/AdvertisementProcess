@@ -3,7 +3,7 @@
 import PreviewTab from "@/components/UserForm/previewTab";
 import UserForm from "@/components/UserForm/userForm";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useState, useRef, useMemo } from "react";
 
 export default function Home() {
   const [post, setpost] = useState({
@@ -33,6 +33,7 @@ export default function Home() {
         <div className="flex-1">
           <PreviewTab post={post} />
         </div>
+        <div></div>
       </div>
     </div>
   );
