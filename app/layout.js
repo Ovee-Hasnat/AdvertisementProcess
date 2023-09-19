@@ -12,9 +12,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <h1 className="text-3xl font-semibold text-center underline">
+        {/* <h1 className="text-3xl font-semibold text-center underline">
           Advertisement Process
-        </h1>
+        </h1> */}
         {children}
       </body>
     </html>
