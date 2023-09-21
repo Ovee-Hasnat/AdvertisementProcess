@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { FaRegTrashAlt } from "react-icons/fa";
+import { FaEdit, FaRegTrashAlt } from "react-icons/fa";
 
 function TaskCard({ task, deleteTask, updateTask }) {
   const [mouseIsOver, setMouseIsOver] = useState(false);
-  const [editMode, setEditMode] = useState(true);
+  const [editMode, setEditMode] = useState(false);
 
   const {
     setNodeRef,
@@ -81,7 +81,7 @@ function TaskCard({ task, deleteTask, updateTask }) {
       style={style}
       {...attributes}
       {...listeners}
-      onClick={toggleEditMode}
+      // onClick={toggleEditMode}
       className="bg-mainBackgroundColor p-2.5 h-[100px] min-h-[100px] items-center flex text-left rounded-xl hover:ring-2 hover:ring-inset hover:ring-rose-500 cursor-grab relative task"
       onMouseEnter={() => {
         setMouseIsOver(true);
@@ -95,14 +95,23 @@ function TaskCard({ task, deleteTask, updateTask }) {
       </p>
 
       {mouseIsOver && (
-        <button
-          onClick={() => {
-            deleteTask(task.id);
-          }}
-          className="stroke-white absolute right-4 top-1/2 -translate-y-1/2 bg-columnBackgroundColor p-2 rounded opacity-60 hover:opacity-100"
-        >
-          <FaRegTrashAlt size={16} />
-        </button>
+        <div className="p-2 h-full flex flex-col justify-center items-center gap-3">
+          <button
+            onClick={toggleEditMode}
+            className="rounded opacity-60 hover:opacity-100"
+          >
+            <FaEdit size={16} />
+          </button>
+
+          <button
+            onClick={() => {
+              deleteTask(task.id);
+            }}
+            className="rounded opacity-60 hover:opacity-100"
+          >
+            <FaRegTrashAlt size={16} />
+          </button>
+        </div>
       )}
     </div>
   );

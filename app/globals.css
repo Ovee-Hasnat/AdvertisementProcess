@@ -3,3 +3,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar:horizontal {
+  height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-neutral-700 rounded-xl;
+}
+
+.task > ::-webkit-scrollbar-thumb {
+  @apply bg-sky-500 rounded-xl;
+}

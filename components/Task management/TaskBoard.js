@@ -196,7 +196,7 @@ function KanbanBoard() {
                   (task) => task.columnId === activeColumn.id
                 )}
               />
-            )}  
+            )}
             {activeTask && (
               <TaskCard
                 task={activeTask}
